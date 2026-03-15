@@ -14,96 +14,14 @@
 
   <body>
     <ion-app>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>BMI</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-footer>
-        <ion-toolbar>
-          <div class="centering-buttons">
-            <ion-button>
-              <ion-icon slot="icon-only" name="home" (click)="goPage1()"></ion-icon>
-            </ion-button>
-            <ion-button>
-              <ion-icon
-                slot="icon-only"
-                name="list"
-                routerLink="/page2"
-                (click)="goPage2()"
-              ></ion-icon>
-            </ion-button>
-          </div>
-        </ion-toolbar>
-      </ion-footer>
-
-      <ion-content class="ion-padding">
-        <ion-card>
-          <ion-card-content>
-            <ion-item>
-              <ion-input placeholder="Name" id="input-name"></ion-input>
-              <ion-icon slot="start" name="person-outline" aria-hidden="true"></ion-icon>
-            </ion-item>
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-content>
-            <ion-item>
-              <ion-input placeholder="Age" id="input-age"></ion-input>
-              <ion-icon slot="start" name="calendar-clear-outline" aria-hidden="true"></ion-icon>
-            </ion-item>
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-list id="radio-1">
-              <ion-radio-group value="truncated" id="radio-1-selection">
-                <ion-item> <ion-radio value="Male">Male</ion-radio><br /> </ion-item>
-                <ion-item> <ion-radio value="Female">Female</ion-radio><br /> </ion-item>
-              </ion-radio-group>
-            </ion-list>
-          </ion-card-header>
-        </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-range
-              labelPlacement="start"
-              aria-label="Range with height"
-              id="range-height"
-              pin="true"
-              min="140"
-              max="300"
-            >
-              <ion-icon slot="start" name="accessibility-outline" aria-hidden="true"></ion-icon
-            ></ion-range>
-            <ion-text style="color: #ffffff" id="Text-height">height: </ion-text>
-            <ion-range
-              labelPlacement="start"
-              aria-label="Range with weight"
-              id="range-weight"
-              pin="true"
-              min="1"
-              max="500"
-            >
-              <ion-icon slot="start" name="scale-outline" aria-hidden="true"></ion-icon
-            ></ion-range>
-            <ion-text style="color: #ffffff" id="Text-weight">weight: </ion-text>
-          </ion-card-header>
-        </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-button shape="round" onclick="openModal()">Calculate</ion-button>
-          </ion-card-header>
-        </ion-card>
-      </ion-content>
-
-      <ion-modal initial-breakpoint="0.35"> </ion-modal>
-
-      <ion-alert header="Fill all the information!" message="Message"></ion-alert>
-    </ion-app>
-    <script src="src/app.js"></script>
+    <ion-router>
+      <ion-route url="/" component="page-one"></ion-route>
+      <ion-route url="/page-two" component="page-two"></ion-route>
+    </ion-router>
+    <ion-router-outlet></ion-router-outlet>
   </body>
+  </ion-app>
+    <script src="src/app.js"></script>
 </html>
 
 <style>

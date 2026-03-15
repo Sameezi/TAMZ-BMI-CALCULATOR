@@ -1,64 +1,159 @@
-//Variables
-const height_range = document.getElementById('range-height');
-const weight_range = document.getElementById('range-weight');
-const name_field = document.getElementById('input-name');
-const age_field = document.getElementById('input-age');
-const gender_field = document.getElementById('radio-1-selection');
-const alert = document.querySelector('ion-alert');
-alert.buttons = ['OK'];
-const modal = document.querySelector('ion-modal');
+class PageOne extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>BMI</ion-title>
+        </ion-toolbar>
+      </ion-header>
 
-//Listners
-weight_range.addEventListener('ionChange', ({ detail }) => {
-  document.getElementById('Text-weight').textContent = 'weight: ' + detail.value + ' kg';
-});
+      <ion-footer>
+        <ion-toolbar>
+          <div class="centering-buttons">
+          <ion-router-link href="#/">
+            <ion-button>
+              <ion-icon slot="icon-only" name="home" (click)="goPage1()"></ion-icon>
+            </ion-button>
+            <ion-router-link>
+            <ion-router-link href="#/page-two">
+            <ion-button>
+              <ion-icon
+                slot="icon-only"
+                name="list"
+              ></ion-icon>
+            </ion-button>
+            <ion-router-link>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
 
-height_range.addEventListener('ionChange', ({ detail }) => {
-  document.getElementById('Text-height').textContent = 'height: ' + detail.value + ' cm';
-});
-
-alert.addEventListener('ionAlertDidDismiss', () => {
-  alert.isOpen = false;
-});
-
-modal.addEventListener('ionModalDidDismiss', () => {
-  modal.isOpen = false;
-});
-
-//functions
-function openModal() {
-  if (name_field.value == '') {
-    alert.message = 'field name is empty!';
-    alert.isOpen = true;
-    console.log('no name');
-    return;
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-content>
+            <ion-item>
+              <ion-input placeholder="Name" id="input-name"></ion-input>
+              <ion-icon slot="start" name="person-outline" aria-hidden="true"></ion-icon>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-item>
+              <ion-input placeholder="Age" id="input-age"></ion-input>
+              <ion-icon slot="start" name="calendar-clear-outline" aria-hidden="true"></ion-icon>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-list id="radio-1">
+              <ion-radio-group value="truncated" id="radio-1-selection">
+                <ion-item> <ion-radio value="Male">Male</ion-radio><br /> </ion-item>
+                <ion-item> <ion-radio value="Female">Female</ion-radio><br /> </ion-item>
+              </ion-radio-group>
+            </ion-list>
+          </ion-card-header>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-range
+              labelPlacement="start"
+              aria-label="Range with height"
+              id="range-height"
+              pin="true"
+              min="140"
+              max="300"
+            >
+              <ion-icon slot="start" name="accessibility-outline" aria-hidden="true"></ion-icon
+            ></ion-range>
+            <ion-text style="color: #ffffff" id="Text-height">height: </ion-text>
+            <ion-range
+              labelPlacement="start"
+              aria-label="Range with weight"
+              id="range-weight"
+              pin="true"
+              min="1"
+              max="500"
+            >
+              <ion-icon slot="start" name="scale-outline" aria-hidden="true"></ion-icon
+            ></ion-range>
+            <ion-text style="color: #ffffff" id="Text-weight">weight: </ion-text>
+          </ion-card-header>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-button shape="round" onclick="openModal()">Calculate</ion-button>
+          </ion-card-header>
+        </ion-card>
+      </ion-content>
+      <ion-modal initial-breakpoint="0.35"> </ion-modal>
+      <ion-alert header="Fill all the information!" message="Message"></ion-alert>
+    `;
   }
-  if (age_field.value == '') {
-    alert.message = 'field age is empty!';
-    alert.isOpen = true;
-    console.log('no age');
-    return;
-  }
-  if (gender_field.value == 'truncated') {
-    alert.message = 'gender is not selected!';
-    alert.isOpen = true;
-    console.log('no gender');
-    return;
-  }
-  if (height_range.value === 0) {
-    alert.message = 'height is not selected!';
-    alert.isOpen = true;
-    console.log('no height');
-    return;
-  }
-  if (weight_range.value === 0) {
-    alert.message = 'weight is not selected!';
-    alert.isOpen = true;
-    console.log('no weight');
-    return;
-  }
+  ionViewDidEnter() {
+    console.log('Home page loaded!');
 
-  modal.innerHTML = ` 
+    //Variables
+    const height_range = document.getElementById('range-height');
+    const weight_range = document.getElementById('range-weight');
+    const name_field = document.getElementById('input-name');
+    const age_field = document.getElementById('input-age');
+    const gender_field = document.getElementById('radio-1-selection');
+    const alert = document.querySelector('ion-alert');
+    alert.buttons = ['OK'];
+    const modal = document.querySelector('ion-modal');
+
+    //Listners
+    weight_range.addEventListener('ionChange', ({ detail }) => {
+      document.getElementById('Text-weight').textContent = 'weight: ' + detail.value + ' kg';
+    });
+
+    height_range.addEventListener('ionChange', ({ detail }) => {
+      document.getElementById('Text-height').textContent = 'height: ' + detail.value + ' cm';
+    });
+
+    alert.addEventListener('ionAlertDidDismiss', () => {
+      alert.isOpen = false;
+    });
+
+    modal.addEventListener('ionModalDidDismiss', () => {
+      modal.isOpen = false;
+    });
+
+    //functions
+    function openModal() {
+      if (name_field.value == '') {
+        alert.message = 'field name is empty!';
+        alert.isOpen = true;
+        console.log('no name');
+        return;
+      }
+      if (age_field.value == '') {
+        alert.message = 'field age is empty!';
+        alert.isOpen = true;
+        console.log('no age');
+        return;
+      }
+      if (gender_field.value == 'truncated') {
+        alert.message = 'gender is not selected!';
+        alert.isOpen = true;
+        console.log('no gender');
+        return;
+      }
+      if (height_range.value === 0) {
+        alert.message = 'height is not selected!';
+        alert.isOpen = true;
+        console.log('no height');
+        return;
+      }
+      if (weight_range.value === 0) {
+        alert.message = 'weight is not selected!';
+        alert.isOpen = true;
+        console.log('no weight');
+        return;
+      }
+
+      modal.innerHTML = ` 
         <ion-content>
               <ion-header>
                 <ion-toolbar id='modal-toolbar'>
@@ -85,62 +180,84 @@ function openModal() {
             </ion-content>
               `;
 
-  modal.isOpen = true;
-  calculateBMI();
+      modal.isOpen = true;
+      calculateBMI();
+    }
+
+    function calculateBMI() {
+      let bmi = weight_range.value / (height_range.value / 100) ** 2;
+
+      console.log('bmi: ' + bmi);
+      document.getElementById('info-name').textContent = name_field.value;
+      document.getElementById('info-age').textContent = age_field.value;
+      document.getElementById('info-gender').textContent = gender_field.value;
+      document.getElementById('info-height').textContent = height_range.value + ' cm';
+      document.getElementById('info-weight').textContent = weight_range.value + ' kg';
+      document.getElementById('Text-evaluation').textContent = 'You are ';
+      addItem(bmi);
+
+      if (bmi < 18.5) {
+        document.getElementById('Text-evaluation').textContent += 'underweight!';
+        document.getElementById('modal-toolbar').style =
+          '--background: radial-gradient(circle,rgb(209, 132, 96) 23%, rgba(84, 219, 50, 1) 100%);';
+        return;
+      }
+      if (bmi < 24.9) {
+        document.getElementById('Text-evaluation').textContent += 'healthy';
+        return;
+      }
+      if (bmi < 29.9) {
+        document.getElementById('Text-evaluation').textContent += 'overweight';
+        document.getElementById('modal-toolbar').style =
+          '--background: radial-gradient(circle,rgb(209, 209, 96) 23%, rgba(84, 219, 50, 1) 100%);';
+
+        return;
+      }
+      if (bmi > 30) {
+        document.getElementById('Text-evaluation').textContent += 'obese!';
+        document.getElementById('modal-toolbar').style =
+          '--background: radial-gradient(circle,rgb(209, 132, 96) 23%, rgba(84, 219, 50, 1) 100%);';
+        return;
+      }
+    }
+
+    function addItem(result) {
+      let data = {
+        name: name_field.value,
+        age: age_field.value,
+        gender: gender_field.value,
+        height: height_range.value,
+        weight: weight_range.value,
+        bmi: result,
+      };
+
+      let offset = localStorage.length;
+      while (localStorage['record-' + offset] != undefined) {
+        offset += 1;
+      }
+      let key = 'record-' + offset;
+
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+  }
 }
 
-function calculateBMI() {
-  let bmi = weight_range.value / (height_range.value / 100) ** 2;
-
-  console.log('bmi: ' + bmi);
-  document.getElementById('info-name').textContent = name_field.value;
-  document.getElementById('info-age').textContent = age_field.value;
-  document.getElementById('info-gender').textContent = gender_field.value;
-  document.getElementById('info-height').textContent = height_range.value + ' cm';
-  document.getElementById('info-weight').textContent = weight_range.value + ' kg';
-  document.getElementById('Text-evaluation').textContent = 'You are ';
-  addItem(bmi);
-
-  if (bmi < 18.5) {
-    document.getElementById('Text-evaluation').textContent += 'underweight!';
-    document.getElementById('modal-toolbar').style =
-      '--background: radial-gradient(circle,rgb(209, 132, 96) 23%, rgba(84, 219, 50, 1) 100%);';
-    return;
-  }
-  if (bmi < 24.9) {
-    document.getElementById('Text-evaluation').textContent += 'healthy';
-    return;
-  }
-  if (bmi < 29.9) {
-    document.getElementById('Text-evaluation').textContent += 'overweight';
-    document.getElementById('modal-toolbar').style =
-      '--background: radial-gradient(circle,rgb(209, 209, 96) 23%, rgba(84, 219, 50, 1) 100%);';
-
-    return;
-  }
-  if (bmi > 30) {
-    document.getElementById('Text-evaluation').textContent += 'obese!';
-    document.getElementById('modal-toolbar').style =
-      '--background: radial-gradient(circle,rgb(209, 132, 96) 23%, rgba(84, 219, 50, 1) 100%);';
-    return;
+class PageTwo extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Page Two</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      This is the content for page 2.
+    </ion-content>`;
   }
 }
 
-function addItem(result) {
-  let data = {
-    name: name_field.value,
-    age: age_field.value,
-    gender: gender_field.value,
-    height: height_range.value,
-    weight: weight_range.value,
-    bmi: result,
-  };
-
-  let offset = localStorage.length;
-  while (localStorage['record-' + offset] != undefined) {
-    offset += 1;
-  }
-  let key = 'record-' + offset;
-
-  localStorage.setItem(key, JSON.stringify(data));
-}
+customElements.define('page-one', PageOne);
+customElements.define('page-two', PageTwo);
