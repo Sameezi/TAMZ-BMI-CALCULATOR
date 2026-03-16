@@ -22,7 +22,7 @@
                 <ion-title>BMI Calculator</ion-title>
               </ion-toolbar>
             </ion-header>
-<ion-content class="ion-padding">
+            <ion-content class="ion-padding">
               <ion-card>
                 <ion-card-content>
                   <ion-item>
@@ -91,7 +91,7 @@
               <ion-modal initial-breakpoint="0.35"> </ion-modal>
               <ion-alert header="Fill all the information!" message="Message"></ion-alert>
             </ion-content>
-            </div>
+          </div>
         </ion-tab>
 
         <ion-tab tab="list">
@@ -102,7 +102,18 @@
               </ion-toolbar>
             </ion-header>
             <ion-content>
-              <div class="tab-content">Radio content</div>
+              <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+                <ion-fab-button>
+                  <ion-icon name="chevron-up-circle"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="top">
+                  <ion-fab-button>
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+              <ul id="ion-list"></ul>
+              <ion-list id="ionic-list" inset="true"> </ion-list>
             </ion-content>
           </div>
         </ion-tab>
@@ -130,6 +141,8 @@
       const alert = document.querySelector('ion-alert');
       alert.buttons = ['OK'];
       const modal = document.querySelector('ion-modal');
+      const tabs = document.querySelector('ion-tabs');
+
       //Listners
       weight_range.addEventListener('ionChange', ({ detail }) => {
         document.getElementById('Text-weight').textContent = 'weight: ' + detail.value + ' kg';
@@ -141,6 +154,10 @@
 
       alert.addEventListener('ionAlertDidDismiss', () => {
         alert.isOpen = false;
+      });
+
+      tabs.addEventListener('ionTabsWillChange', () => {
+        showItems();
       });
 
       modal.addEventListener('ionModalDidDismiss', () => {
@@ -270,6 +287,53 @@
 
         localStorage.setItem(key, JSON.stringify(data));
       }
+
+      function showItems() {
+        let el = document.getElementById('ionic-list');
+        el.innerHTML = '';
+        for (const [key, value] of Object.entries(localStorage)) {
+          let json = localStorage.getItem(key);
+          let data = JSON.parse(json);
+          let node = document.createElement('ion-item-sliding');
+          node.innerHTML = `
+                     <ion-card id = "${key}">
+                     <ion-item class = 'record'>
+                        <ion-icon style='--color: #fff;' slot="start" name="calculator" size="large"></ion-icon>
+                       <ion-label style="font-size: 21px;">${data.name}</ion-label>
+                        <div class="metadata-end-wrapper" slot="end">
+                         <ion-note color="medium">note here</ion-note>
+                         <ion-icon color="medium" name="chevron-back-sharp"></ion-icon>
+                       </div>
+                     </ion-item>
+                      <ion-item-options>
+                       <ion-item-option color="danger" expandable>
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                        </ion-item-option>
+                       </ion-item-options>
+                       </ion-card>
+                      `;
+
+          // Listeners
+          node.addEventListener('click', (e) => {
+            if (e.target.getAttribute('name') === 'trash') {
+              const id = e.target.closest('ion-card').id;
+              destItem(id);
+            }
+          });
+
+          document.getElementById('ionic-list').appendChild(node);
+        }
+      }
+      function destItems() {
+        console.log('localStorage destroyed');
+        localStorage.clear();
+      }
+
+      function destItem(id) {
+        console.log('Destroying ' + id);
+        localStorage.removeItem(id);
+        showItems();
+      }
     </script>
   </body>
 </html>
@@ -328,10 +392,17 @@
     --background: #6ba200;
     --background: linear-gradient(0deg, rgba(107, 162, 0, 1) 0%, rgba(34, 108, 2, 1) 100%);
   }
-
-  .info-list {
-    --background: #6ba200;
+  ion-fab-button {
+    --background: #9ccf82;
+    --background-activated: #87d361;
+    --background-hover: #88c46a;
+    --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --color: black;
   }
+  #ionic-list {
+    background: transparent;
+  }
+
   #radio-1 {
     --background: transparent;
     background: transparent;
@@ -346,5 +417,16 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+  }
+  .info-list {
+    --background: #6ba200;
+  }
+  .record {
+    --background: #6ba200;
+    --background: linear-gradient(0deg, rgb(108, 162, 0) 0%, rgb(34, 108, 2) 100%);
+    --background-activated: #eaeaea;
+    --background-focused: #eaeaea;
+    --background-hover: #eaeaea;
+    --color: #ffffff;
   }
 </style>
