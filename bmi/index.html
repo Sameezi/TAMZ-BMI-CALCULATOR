@@ -107,7 +107,7 @@
                   <ion-icon name="chevron-up-circle"></ion-icon>
                 </ion-fab-button>
                 <ion-fab-list side="top">
-                  <ion-fab-button>
+                  <ion-fab-button onclick="destItems();">
                     <ion-icon name="trash"></ion-icon>
                   </ion-fab-button>
                 </ion-fab-list>
@@ -270,6 +270,12 @@
       }
 
       function addItem(result) {
+        const date = new Date();
+        const formatted = date.toLocaleDateString('sk-SK');
+
+        console.log(formatted);
+
+
         let data = {
           name: name_field.value,
           age: age_field.value,
@@ -277,6 +283,7 @@
           height: height_range.value,
           weight: weight_range.value,
           bmi: result,
+          date: formatted
         };
 
         let offset = localStorage.length;
@@ -301,12 +308,12 @@
                         <ion-icon style='--color: #fff;' slot="start" name="calculator" size="large"></ion-icon>
                        <ion-label style="font-size: 21px;">${data.name}</ion-label>
                         <div class="metadata-end-wrapper" slot="end">
-                         <ion-note color="medium">note here</ion-note>
+                         <ion-note color="high" style="--color:#FFF;">${data.date}, bmi: ${data.bmi.toFixed(2)}</ion-note>
                          <ion-icon color="medium" name="chevron-back-sharp"></ion-icon>
                        </div>
                      </ion-item>
                       <ion-item-options>
-                       <ion-item-option color="danger" expandable>
+                       <ion-item-option color="danger" expandable> 
                         <ion-icon slot="icon-only" name="trash"></ion-icon>
                         </ion-item-option>
                        </ion-item-options>
@@ -327,6 +334,7 @@
       function destItems() {
         console.log('localStorage destroyed');
         localStorage.clear();
+        showItems();
       }
 
       function destItem(id) {
@@ -382,6 +390,7 @@
   }
   ion-tab-button {
     --color-selected: #e4f806;
+    --background:transparent;
   }
 
   ion-radio {
